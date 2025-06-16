@@ -1,198 +1,129 @@
-// insert_books.js - Script to populate MongoDB with sample book data
-
-// Import MongoDB client
+// insert_books.js
 const { MongoClient } = require('mongodb');
 
-// Connection URI (replace with your MongoDB connection string if using Atlas)
-const uri = 'mongodb://localhost:27017';
-
-// Database and collection names
-const dbName = 'plp_bookstore';
-const collectionName = 'books';
-
-// Sample book data
-const books = [
-  {
-    title: 'To Kill a Mockingbird',
-    author: 'Harper Lee',
-    genre: 'Fiction',
-    published_year: 1960,
-    price: 12.99,
-    in_stock: true,
-    pages: 336,
-    publisher: 'J. B. Lippincott & Co.'
-  },
-  {
-    title: '1984',
-    author: 'George Orwell',
-    genre: 'Dystopian',
-    published_year: 1949,
-    price: 10.99,
-    in_stock: true,
-    pages: 328,
-    publisher: 'Secker & Warburg'
-  },
-  {
-    title: 'The Great Gatsby',
-    author: 'F. Scott Fitzgerald',
-    genre: 'Fiction',
-    published_year: 1925,
-    price: 9.99,
-    in_stock: true,
-    pages: 180,
-    publisher: 'Charles Scribner\'s Sons'
-  },
-  {
-    title: 'Brave New World',
-    author: 'Aldous Huxley',
-    genre: 'Dystopian',
-    published_year: 1932,
-    price: 11.50,
-    in_stock: false,
-    pages: 311,
-    publisher: 'Chatto & Windus'
-  },
-  {
-    title: 'The Hobbit',
-    author: 'J.R.R. Tolkien',
-    genre: 'Fantasy',
-    published_year: 1937,
-    price: 14.99,
-    in_stock: true,
-    pages: 310,
-    publisher: 'George Allen & Unwin'
-  },
-  {
-    title: 'The Catcher in the Rye',
-    author: 'J.D. Salinger',
-    genre: 'Fiction',
-    published_year: 1951,
-    price: 8.99,
-    in_stock: true,
-    pages: 224,
-    publisher: 'Little, Brown and Company'
-  },
-  {
-    title: 'Pride and Prejudice',
-    author: 'Jane Austen',
-    genre: 'Romance',
-    published_year: 1813,
-    price: 7.99,
-    in_stock: true,
-    pages: 432,
-    publisher: 'T. Egerton, Whitehall'
-  },
-  {
-    title: 'The Lord of the Rings',
-    author: 'J.R.R. Tolkien',
-    genre: 'Fantasy',
-    published_year: 1954,
-    price: 19.99,
-    in_stock: true,
-    pages: 1178,
-    publisher: 'Allen & Unwin'
-  },
-  {
-    title: 'Animal Farm',
-    author: 'George Orwell',
-    genre: 'Political Satire',
-    published_year: 1945,
-    price: 8.50,
-    in_stock: false,
-    pages: 112,
-    publisher: 'Secker & Warburg'
-  },
-  {
-    title: 'The Alchemist',
-    author: 'Paulo Coelho',
-    genre: 'Fiction',
-    published_year: 1988,
-    price: 10.99,
-    in_stock: true,
-    pages: 197,
-    publisher: 'HarperOne'
-  },
-  {
-    title: 'Moby Dick',
-    author: 'Herman Melville',
-    genre: 'Adventure',
-    published_year: 1851,
-    price: 12.50,
-    in_stock: false,
-    pages: 635,
-    publisher: 'Harper & Brothers'
-  },
-  {
-    title: 'Wuthering Heights',
-    author: 'Emily Brontë',
-    genre: 'Gothic Fiction',
-    published_year: 1847,
-    price: 9.99,
-    in_stock: true,
-    pages: 342,
-    publisher: 'Thomas Cautley Newby'
-  }
-];
-
-// Function to insert books into MongoDB
 async function insertBooks() {
+  // Replace this with your MongoDB Atlas connection string
+  const uri = "mongodb+srv://<username>:<password>@<cluster-address>/test?retryWrites=true&w=majority";
+
   const client = new MongoClient(uri);
 
   try {
-    // Connect to the MongoDB server
     await client.connect();
-    console.log('Connected to MongoDB server');
 
-    // Get database and collection
-    const db = client.db(dbName);
-    const collection = db.collection(collectionName);
+    const database = client.db('plp_bookstore');  // Your DB name
+    const books = database.collection('books');   // Your collection
 
-    // Check if collection already has documents
-    const count = await collection.countDocuments();
-    if (count > 0) {
-      console.log(`Collection already contains ${count} documents. Dropping collection...`);
-      await collection.drop();
-      console.log('Collection dropped successfully');
-    }
+    const bookDocuments = [
+      {
+        title: "Educated",
+        author: "Tara Westover",
+        genre: "Memoir",
+        published_year: 2018,
+        price: 16.99,
+        in_stock: true,
+        pages: 334,
+        publisher: "Random House"
+      },
+      {
+        title: "Becoming",
+        author: "Michelle Obama",
+        genre: "Autobiography",
+        published_year: 2018,
+        price: 18.99,
+        in_stock: true,
+        pages: 448,
+        publisher: "Crown Publishing Group"
+      },
+      {
+        title: "Sapiens: A Brief History of Humankind",
+        author: "Yuval Noah Harari",
+        genre: "History",
+        published_year: 2011,
+        price: 14.99,
+        in_stock: true,
+        pages: 443,
+        publisher: "Harper"
+      },
+      {
+        title: "The Night Circus",
+        author: "Erin Morgenstern",
+        genre: "Fantasy",
+        published_year: 2011,
+        price: 12.99,
+        in_stock: false,
+        pages: 387,
+        publisher: "Doubleday"
+      },
+      {
+        title: "The Silent Patient",
+        author: "Alex Michaelides",
+        genre: "Thriller",
+        published_year: 2019,
+        price: 15.49,
+        in_stock: true,
+        pages: 325,
+        publisher: "Celadon Books"
+      },
+      {
+        title: "Where the Crawdads Sing",
+        author: "Delia Owens",
+        genre: "Mystery",
+        published_year: 2018,
+        price: 14.29,
+        in_stock: true,
+        pages: 368,
+        publisher: "G.P. Putnam's Sons"
+      },
+      {
+        title: "Circe",
+        author: "Madeline Miller",
+        genre: "Mythology",
+        published_year: 2018,
+        price: 13.99,
+        in_stock: false,
+        pages: 393,
+        publisher: "Little, Brown and Company"
+      },
+      {
+        title: "Normal People",
+        author: "Sally Rooney",
+        genre: "Fiction",
+        published_year: 2018,
+        price: 11.99,
+        in_stock: true,
+        pages: 273,
+        publisher: "Faber & Faber"
+      },
+      {
+        title: "The Testaments",
+        author: "Margaret Atwood",
+        genre: "Dystopian",
+        published_year: 2019,
+        price: 17.50,
+        in_stock: true,
+        pages: 419,
+        publisher: "Nan A. Talese"
+      },
+      {
+        title: "Anxious People",
+        author: "Fredrik Backman",
+        genre: "Comedy",
+        published_year: 2019,
+        price: 13.75,
+        in_stock: true,
+        pages: 352,
+        publisher: "Simon & Schuster"
+      }
+    ];
 
-    // Insert the books
-    const result = await collection.insertMany(books);
-    console.log(`${result.insertedCount} books were successfully inserted into the database`);
-
-    // Display the inserted books
-    console.log('\nInserted books:');
-    const insertedBooks = await collection.find({}).toArray();
-    insertedBooks.forEach((book, index) => {
-      console.log(`${index + 1}. "${book.title}" by ${book.author} (${book.published_year})`);
-    });
-
-  } catch (err) {
-    console.error('Error occurred:', err);
+    const result = await books.insertMany(bookDocuments);
+    console.log(`${result.insertedCount} books inserted successfully!`);
+  } catch (error) {
+    console.error("Error inserting books:", error);
   } finally {
-    // Close the connection
     await client.close();
-    console.log('Connection closed');
   }
 }
 
-// Run the function
-insertBooks().catch(console.error);
+insertBooks();
 
-/*
- * Example MongoDB queries you can try after running this script:
- *
- * 1. Find all books:
- *    db.books.find()
- *
- * 2. Find books by a specific author:
- *    db.books.find({ author: "George Orwell" })
- *
- * 3. Find books published after 1950:
- *    db.books.find({ published_year: { $gt: 1950 } })
- *
- * 4. Find books in a specific genre:
- *    db.books.find({ genre: "Fiction" })
- *
- * 5. Find in-stock books:
- *    db.books.find({ in_stock: true })
- */ 
